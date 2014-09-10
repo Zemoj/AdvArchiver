@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="XenStop_AdvArchiver" title="Advanced Message Archiver" version_string="1.1.0" version_id="1010071" url="https://github.com/XenStop/AdvArchiver" install_callback_class="XenStop_AdvArchiver_Listener_Install" install_callback_method="install" uninstall_callback_class="XenStop_AdvArchiver_Listener_Install" uninstall_callback_method="uninstall">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates>
+    <template title="XenStop_AdvArchiver_forum_edit_fields"><![CDATA[		<li>
+			<xen:radiounit label="{xen:phrase enabled}:" name="enabled" value="{$rule.enabled}">
+				<xen:option value="1">{xen:phrase yes}</xen:option>
+				<xen:option value="0">{xen:phrase no}</xen:option>
+			</xen:radiounit>
+			<xen:textboxunit name="max_age" value="{$rule.max_age}" label="{xen:phrase XenStop_AdvArchiver_Max_Age}:">
+				<xen:explain>{xen:phrase XenStop_AdvArchiver_Max_Age_Explain}</xen:explain>
+			</xen:textboxunit>
+			<xen:textboxunit name="max_age_lastpost" value="{$rule.max_age_lastpost}" label="{xen:phrase XenStop_AdvArchiver_Max_Age_Lastpost}:">
+				<xen:explain>{xen:phrase XenStop_AdvArchiver_Max_Age_Lastpost_Explain}</xen:explain>
+			</xen:textboxunit>
+			<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Archive_Type}:" name="archive_type" value="{$rule.archive_type}">
+				<xen:option value="none">{xen:phrase XenStop_AdvArchiver_Archive_Type_None}</xen:option>
+				<xen:option value="archive">{xen:phrase XenStop_AdvArchiver_Archive_Type_Archive}</xen:option>
+				<xen:option value="soft_delete">{xen:phrase XenStop_AdvArchiver_Archive_Type_Soft_Delete}</xen:option>
+				<xen:option value="hard_delete">{xen:phrase XenStop_AdvArchiver_Archive_Type_Hard_Delete}</xen:option>
+			</xen:radiounit>
+			<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Close_Thread}:" name="close" value="{$rule.close}">
+				<xen:option value="1">{xen:phrase yes}</xen:option>
+				<xen:option value="0">{xen:phrase no}</xen:option>
+			</xen:radiounit>
+			<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Ignore_Sticky}:" name="ignore_sticky" value="{$rule.ignore_sticky}">
+				<xen:option value="1">{xen:phrase yes}</xen:option>
+				<xen:option value="0">{xen:phrase no}</xen:option>
+			</xen:radiounit>
+			<xen:textboxunit name="archive_node_id" value="{$rule.archive_node_id}" label="{xen:phrase XenStop_AdvArchiver_Archive_Node_Id}:">
+				<xen:explain>{xen:phrase XenStop_AdvArchiver_Archive_Node_Id_Explain}</xen:explain>
+			</xen:textboxunit>
+			<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Archive_Create_Redirect}:" name="archive_create_redirect" value="{$rule.archive_create_redirect}">
+				<xen:option value="1">{xen:phrase yes}</xen:option>
+				<xen:option value="0">{xen:phrase no}</xen:option>
+				<xen:explain>{xen:phrase XenStop_AdvArchiver_Archive_Create_Redirect_Explain}</xen:explain>
+			</xen:radiounit>
+		</li>]]></template>
+    <template title="XenStop_AdvArchiver_forum_edit_tab"><![CDATA[<li><a>Archiver Rules</a></li>]]></template>
+  </admin_templates>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="XenStop_AdvArchiver_Listener_CodeEvents" callback_method="load_class" active="1" hint="" description="Allows the Advanced Message Archiver to extend controllers."/>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="XenStop_AdvArchiver_Listener_CodeEvents" callback_method="load_class" active="1" hint="" description=""/>
+    <listener event_id="template_hook" execute_order="10" callback_class="XenStop_AdvArchiver_Listener_CodeEvents" callback_method="template_hook" active="1" hint="" description="Allows the Advanced Message Archiver to use template hooks."/>
+  </code_event_listeners>
+  <cron>
+    <entry entry_id="XenStop_AdvArchiver" cron_class="XenStop_AdvArchiver_CronEntry_ArchiveThreads" cron_method="run" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["-1"],"minutes":["0"]}]]></entry>
+  </cron>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups/>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="cron_entry_XenStop_AdvArchiver" version_id="0" version_string="1.0.0"><![CDATA[XenStop.com - Advanced Message Archiver]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Archive_Create_Redirect" version_id="0" version_string="1.0.0"><![CDATA[Create Redirect]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Archive_Create_Redirect_Explain" version_id="0" version_string="1.0.0"><![CDATA[Should a redirect thread be created in the old forum when a thread is archived? <font color="red">NOTE: This only applies if the "Type of archive" option is set to "Archive".</font>]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Archive_Node_Id" version_id="0" version_string="1.0.0"><![CDATA[Archive Node ID]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Archive_Node_Id_Explain" version_id="0" version_string="1.0.0"><![CDATA[The node ID archived threads should be moved to. <font color="red">NOTE: This only applies if the "Type of archive" option is set to "Archive".</font>]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Archive_Type" version_id="0" version_string="1.0.0"><![CDATA[Type of archive]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Archive_Type_Archive" version_id="0" version_string="1.0.0"><![CDATA[Archive]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Archive_Type_Hard_Delete" version_id="0" version_string="1.0.0"><![CDATA[Hard Delete]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Archive_Type_None" version_id="0" version_string="1.0.0"><![CDATA[None]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Archive_Type_Soft_Delete" version_id="0" version_string="1.0.0"><![CDATA[Soft Delete]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Close_Thread" version_id="0" version_string="1.0.0"><![CDATA[Close Thread]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Ignore_Sticky" version_id="2" version_string="1.0.2"><![CDATA[Ignore Sticky]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Max_Age" version_id="0" version_string="1.0.0"><![CDATA[Max Age]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Max_Age_Explain" version_id="0" version_string="1.0.0"><![CDATA[The maximum age (in days) that a thread can live before being archived.]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Max_Age_Lastpost" version_id="0" version_string="1.0.0"><![CDATA[Maximum Age (Last Post)]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Max_Age_Lastpost_Explain" version_id="0" version_string="1.0.0"><![CDATA[The maximum amount of time (in days) that a thread can live since it's last post before being archived.]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates/>
+  <public_template_modifications/>
+  <bb_code_media_sites/>
+</addon>
