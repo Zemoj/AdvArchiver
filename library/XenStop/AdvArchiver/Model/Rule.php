@@ -56,12 +56,27 @@ class XenStop_AdvArchiver_Model_Rule extends XenForo_Model
 				",'thread_id');
 	}
 	
-	/**
-	 * Get rule information by node id
-	 * @param number ID of the node
-	 */
-	public function getRuleByNodeId($nodeId)
+	public function getRules()
 	{
-		return $this->_getDb()->fetchRow('SELECT * FROM `xs_advarchiver_rule` WHERE `node_id`=?',$nodeId);
+		return $this->fetchAllKeyed("
+				SELECT rule.*, node.title AS node_title
+				FROM `xs_advarchiver_rule` AS rule
+				LEFT JOIN `xf_node` AS node ON (node.node_id = rule.node_id)
+				ORDER BY `node_id` ASC
+			", 'rule_id');
+	}
+	
+	/**
+	 * Get rule information by rule id
+	 * @param number ID of the rule
+	 */
+	public function GetRuleById($ruleId)
+	{
+		return $this->_getDb()->fetchRow("
+				SELECT rule.*, node.title AS node_title
+				FROM `xs_advarchiver_rule` AS rule
+				LEFT JOIN `xf_node` AS node ON (node.node_id = rule.node_id)
+				WHERE `rule_id`=?
+			",$ruleId);
 	}
 }

@@ -15,6 +15,7 @@ class XenStop_AdvArchiver_Listener_Install
 			self::_getDb()->query("
 					CREATE TABLE IF NOT EXISTS `xs_advarchiver_rule` (
 					  `node_id` int(10) unsigned NOT NULL,
+					  `title` varchar(50) NULL DEFAULT NULL,
 					  `enabled` tinyint(1) NOT NULL DEFAULT '0',
 					  `max_age` int(10) unsigned DEFAULT NULL,
 					  `max_age_lastpost` int(10) unsigned DEFAULT NULL,
@@ -29,8 +30,12 @@ class XenStop_AdvArchiver_Listener_Install
 			return true;
 		} else {
 			$queries = array();
-			if($version < 1010071) {
+			if($version < 1010070) {
 				$queries[] = "ALTER TABLE  `xs_advarchiver_rule` ADD  `ignore_sticky` TINYINT( 1 ) NOT NULL DEFAULT  '0'";
+			}
+			if($version < 1010170) {
+				$queries[] = "ALTER TABLE `xs_advarchiver_rule` ADD `rule_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`rule_id`)";
+				$queries[] = "ALTER TABLE `xs_advarchiver_rule` ADD `title` VARCHAR(50) NULL DEFAULT NULL AFTER `node_id`";
 			}
 			
 			if(!empty($queries)) {
