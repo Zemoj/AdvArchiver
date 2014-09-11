@@ -8,20 +8,13 @@
 class XenStop_AdvArchiver_Model_Rule extends XenForo_Model
 {
 	/**
-	 * Get last node ID
-	 */
-	public function getLastNodeId()
-	{
-		return $this->_getDb()->lastInsertId('xf_node','node_id');
-	}
-	/**
 	 * Get all automatic archive rules
 	 * 
 	 * @return array Array of all applicable archive rules.
 	 */
 	public function getEnabledRules()
 	{
-		return $this->fetchAllKeyed("SELECT * FROM `xs_advarchiver_rule` WHERE `enabled`=1", 'node_id');
+		return $this->fetchAllKeyed("SELECT * FROM `xs_advarchiver_rule` WHERE `enabled`=1", 'rule_id');
 	}
 	
 	/**
@@ -56,6 +49,10 @@ class XenStop_AdvArchiver_Model_Rule extends XenForo_Model
 				",'thread_id');
 	}
 	
+	/**
+	 * Get all archive rules
+	 * @return mixed Array of all archiver rules
+	 */
 	public function getRules()
 	{
 		return $this->fetchAllKeyed("

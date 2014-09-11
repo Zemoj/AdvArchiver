@@ -19,7 +19,7 @@ class XenStop_AdvArchiver_Listener_Install
 					  `enabled` tinyint(1) NOT NULL DEFAULT '0',
 					  `max_age` int(10) unsigned DEFAULT NULL,
 					  `max_age_lastpost` int(10) unsigned DEFAULT NULL,
-					  `archive_type` varchar(50) NOT NULL DEFAULT '0',
+					  `archive_type` varchar(50) NOT NULL DEFAULT 'none',
 					  `archive_create_redirect` tinyint(1) NOT NULL DEFAULT '0',
 					  `archive_node_id` int(10) unsigned DEFAULT NULL,
 					  `close` tinyint(1) NOT NULL DEFAULT '0',
@@ -34,8 +34,14 @@ class XenStop_AdvArchiver_Listener_Install
 				$queries[] = "ALTER TABLE  `xs_advarchiver_rule` ADD  `ignore_sticky` TINYINT( 1 ) NOT NULL DEFAULT  '0'";
 			}
 			if($version < 1010170) {
-				$queries[] = "ALTER TABLE `xs_advarchiver_rule` ADD `rule_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`rule_id`)";
-				$queries[] = "ALTER TABLE `xs_advarchiver_rule` ADD `title` VARCHAR(50) NULL DEFAULT NULL AFTER `node_id`";
+				$queries[] = "ALTER TABLE `xs_advarchiver_rule`
+					CHANGE `max_age` `max_age` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+					CHANGE `max_age_lastpost` `max_age_lastpost` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+					CHANGE `archive_node_id` `archive_node_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+					CHANGE `archive_type` `archive_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'none',
+					ADD `rule_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT FIRST,
+					ADD PRIMARY KEY (`rule_id`),
+					ADD `title` VARCHAR(50) NULL DEFAULT NULL AFTER `node_id`";
 			}
 			
 			if(!empty($queries)) {

@@ -11,6 +11,7 @@ class XenStop_AdvArchiver_DataWriter_Rule extends XenForo_DataWriter
 	protected function _getFields()
 	{
 		return array('xs_advarchiver_rule' => array(
+			'rule_id'					=> array('type' => self::TYPE_UINT, 'autoIncrement' => true),
 			'node_id'  					=> array('type' => self::TYPE_UINT, 'default' => 0, 'required' => false),
 			'title'						=> array('type' => self::TYPE_STRING, 'default' => NULL, 'required' => false),
 			'enabled'  					=> array('type' => self::TYPE_UINT, 'default' => 0, 'required' => true),
@@ -29,15 +30,13 @@ class XenStop_AdvArchiver_DataWriter_Rule extends XenForo_DataWriter
 		return XenForo_Model::create('XenStop_AdvArchiver_Model_Rule');
 	}
 	
-	protected function _getExistingData($data)
-	{
-		$nodeId = $data;
-		
-		return array('xs_advarchiver_rule' => $this->_getRuleModel()->getRuleByNodeId($nodeId));
+	protected function _getExistingData($ruleId)
+	{		
+		return array('xs_advarchiver_rule' => $this->_getRuleModel()->getRuleById($ruleId));
 	}
 	
 	protected function _getUpdateCondition($tableName)
 	{
-		return 'node_id = ' . $this->_db->quote($this->getExisting('node_id'));
+		return 'rule_id = ' . $this->_db->quote($this->getExisting('rule_id'));
 	}
 }

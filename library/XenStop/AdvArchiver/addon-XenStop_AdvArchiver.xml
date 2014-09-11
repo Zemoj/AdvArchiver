@@ -6,61 +6,102 @@
   <admin_permissions/>
   <admin_style_properties/>
   <admin_templates>
-    <template title="XenStop_AdvArchiver_Rule_Edit"><![CDATA[<xen:title>{xen:if '{$rule.rule_id}', '{xen:phrase XenStop_AdvArchiver_Edit_Rule}: {$rule.title} ({$rule.node_title})', '{xen:phrase XenStop_AdvArchiver_New_Rule}'}</xen:title>
-
-<xen:if is="{$addOn.addon_id}">
+    <template title="XenStop_AdvArchiver_Rule_Edit"><![CDATA[<xen:if is="{$rule.rule_id}">
+	<xen:title>{xen:phrase XenStop_AdvArchiver_Edit_Rule}: {xen:if $rule.title, $rule.title, {xen:phrase XenStop_AdvArchiver_No_Title}} ({$rule.node_title})</xen:title>
 	<xen:navigation>
-		<xen:breadcrumb href="{xen:adminlink add-ons}#{xen:helper listitemid, $addOn.addon_id}">{$addOn.title}</xen:breadcrumb>
+		<xen:breadcrumb href="{xen:adminlink archiverules}">{xen:if $rule.title, $rule.title, {xen:phrase XenStop_AdvArchiver_No_Title}} ({$rule.node_title})</xen:breadcrumb>
 	</xen:navigation>
-	
-	<xen:topctrl>
-		<a href="{xen:adminlink add-ons/upgrade, $addOn}" class="button OverlayTrigger">{xen:phrase upgrade_add_on}</a>
-		<a href="{xen:adminlink add-ons/export, $addOn}" class="button">{xen:phrase export}</a>
-	</xen:topctrl>
+<xen:else />
+	<xen:title>{xen:phrase XenStop_AdvArchiver_New_Rule}</xen:title>
 </xen:if>
 
-<xen:form action="{xen:adminlink 'add-ons/save'}" class="AutoValidator" data-redirect="yes">
-			<xen:textboxunit name="title" value="{$rule.title}" label="{xen:phrase title}:">
-			</xen:textboxunit>
-			<xen:radiounit label="{xen:phrase enabled}:" name="enabled" value="{$rule.enabled}">
-				<xen:option value="1">{xen:phrase yes}</xen:option>
-				<xen:option value="0">{xen:phrase no}</xen:option>
-			</xen:radiounit>
-			<xen:textboxunit name="max_age" value="{$rule.max_age}" label="{xen:phrase XenStop_AdvArchiver_Max_Age}:">
-				<xen:explain>{xen:phrase XenStop_AdvArchiver_Max_Age_Explain}</xen:explain>
-			</xen:textboxunit>
-			<xen:textboxunit name="max_age_lastpost" value="{$rule.max_age_lastpost}" label="{xen:phrase XenStop_AdvArchiver_Max_Age_Lastpost}:">
-				<xen:explain>{xen:phrase XenStop_AdvArchiver_Max_Age_Lastpost_Explain}</xen:explain>
-			</xen:textboxunit>
-			<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Archive_Type}:" name="archive_type" value="{$rule.archive_type}">
-				<xen:option value="none">{xen:phrase XenStop_AdvArchiver_Archive_Type_None}</xen:option>
-				<xen:option value="archive">{xen:phrase XenStop_AdvArchiver_Archive_Type_Archive}</xen:option>
-				<xen:option value="soft_delete">{xen:phrase XenStop_AdvArchiver_Archive_Type_Soft_Delete}</xen:option>
-				<xen:option value="hard_delete">{xen:phrase XenStop_AdvArchiver_Archive_Type_Hard_Delete}</xen:option>
-			</xen:radiounit>
-			<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Close_Thread}:" name="close" value="{$rule.close}">
-				<xen:option value="1">{xen:phrase yes}</xen:option>
-				<xen:option value="0">{xen:phrase no}</xen:option>
-			</xen:radiounit>
-			<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Ignore_Sticky}:" name="ignore_sticky" value="{$rule.ignore_sticky}">
-				<xen:option value="1">{xen:phrase yes}</xen:option>
-				<xen:option value="0">{xen:phrase no}</xen:option>
-			</xen:radiounit>
-			<xen:textboxunit name="archive_node_id" value="{$rule.archive_node_id}" label="{xen:phrase XenStop_AdvArchiver_Archive_Node_Id}:">
-				<xen:explain>{xen:phrase XenStop_AdvArchiver_Archive_Node_Id_Explain}</xen:explain>
-			</xen:textboxunit>
-			<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Archive_Create_Redirect}:" name="archive_create_redirect" value="{$rule.archive_create_redirect}">
-				<xen:option value="1">{xen:phrase yes}</xen:option>
-				<xen:option value="0">{xen:phrase no}</xen:option>
-				<xen:explain>{xen:phrase XenStop_AdvArchiver_Archive_Create_Redirect_Explain}</xen:explain>
-			</xen:radiounit>
+<xen:form action="{xen:adminlink 'archiverules/save'}" class="AutoValidator" data-redirect="yes">
+	<xen:textboxunit name="title" value="{$rule.title}" label="{xen:phrase title}:">
+	</xen:textboxunit>
+	<xen:radiounit label="{xen:phrase enabled}:" name="enabled" value="{$rule.enabled}">
+		<xen:option value="1">{xen:phrase yes}</xen:option>
+		<xen:option value="0">{xen:phrase no}</xen:option>
+	</xen:radiounit>
+	<xen:selectunit name="node_id" value="{$rule.node_id}" label="{xen:phrase node}">
+		<xen:options source="$forums" />
+	</xen:selectunit>
+	<xen:textboxunit name="max_age" value="{$rule.max_age}" label="{xen:phrase XenStop_AdvArchiver_Max_Age}:">
+		<xen:explain>{xen:phrase XenStop_AdvArchiver_Max_Age_Explain}</xen:explain>
+	</xen:textboxunit>
+	<xen:textboxunit name="max_age_lastpost" value="{$rule.max_age_lastpost}" label="{xen:phrase XenStop_AdvArchiver_Max_Age_Lastpost}:">
+		<xen:explain>{xen:phrase XenStop_AdvArchiver_Max_Age_Lastpost_Explain}</xen:explain>
+	</xen:textboxunit>
+	<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Archive_Type}:" name="archive_type" value="{$rule.archive_type}">
+		<xen:option value="none">{xen:phrase XenStop_AdvArchiver_Archive_Type_None}</xen:option>
+		<xen:option value="archive">{xen:phrase XenStop_AdvArchiver_Archive_Type_Archive}</xen:option>
+		<xen:option value="soft_delete">{xen:phrase XenStop_AdvArchiver_Archive_Type_Soft_Delete}</xen:option>
+		<xen:option value="hard_delete">{xen:phrase XenStop_AdvArchiver_Archive_Type_Hard_Delete}</xen:option>
+	</xen:radiounit>
+	<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Close_Thread}:" name="close" value="{$rule.close}">
+		<xen:option value="1">{xen:phrase yes}</xen:option>
+		<xen:option value="0">{xen:phrase no}</xen:option>
+	</xen:radiounit>
+	<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Ignore_Sticky}:" name="ignore_sticky" value="{$rule.ignore_sticky}">
+		<xen:option value="1">{xen:phrase yes}</xen:option>
+		<xen:option value="0">{xen:phrase no}</xen:option>
+	</xen:radiounit>
+	<xen:selectunit name="archive_node_id" value="{$rule.archive_node_id}" label="{xen:phrase XenStop_AdvArchiver_Archive_Node_Id}">
+		<xen:option value="0">&nbsp;</xen:option>
+		<xen:options source="$forums" />
+	</xen:selectunit>
+	<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Archive_Create_Redirect}:" name="archive_create_redirect" value="{$rule.archive_create_redirect}">
+		<xen:option value="1">{xen:phrase yes}</xen:option>
+		<xen:option value="0">{xen:phrase no}</xen:option>
+		<xen:explain>{xen:phrase XenStop_AdvArchiver_Archive_Create_Redirect_Explain}</xen:explain>
+	</xen:radiounit>
+	<xen:if is="{$rule.rule_id}">
+		<input type="hidden" name="rule_id" value="{$rule.rule_id}">
+	</xen:if>
+
+	<xen:submitunit save="{xen:phrase save}" />
+</xen:form>]]></template>
+    <template title="XenStop_AdvArchiver_Rule_List"><![CDATA[<xen:title>{xen:phrase XenStop_AdvArchiver_Rule_List}</xen:title>
+
+<xen:topctrl>
+	<a href="{xen:adminlink 'archiverules/add'}" class="button" accesskey="a">+ {xen:phrase XenStop_AdvArchiver_New_Rule}</a>
+</xen:topctrl>
+
+<xen:require css="filter_list.css" />
+<xen:require js="js/xenforo/filter_list.js" />
+
+<xen:form action="{xen:adminlink archiverules}" class="section">
+	<xen:if is="{$rules}">
+
+		<h2 class="subHeading">
+			<xen:include template="filter_list_controls" />
+			{xen:phrase XenStop_AdvArchiver_Rule_List}
+		</h2>
+		
+		<xen:set var="$ruleCount">{xen:count $rules, false}</xen:set>
+
+		<ol class="FilterList Scrollable">
+			<xen:foreach loop="$rules" value="$rule">
+				<xen:listitem
+					id="{$rule.rule_id}"
+					label="{xen:if $rule.title, $rule.title, {xen:phrase XenStop_AdvArchiver_No_Title}} ({$rule.node_title})"
+					href="{xen:adminlink 'archiverules/edit', $rule}"
+					delete="{xen:adminlink 'archiverules/delete', $rule}">
+				</xen:listitem>
+			</xen:foreach>
+		</ol>
+
+		<p class="sectionFooter">{xen:phrase showing_x_of_y_items, 'count=<span class="FilterListCount">{xen:count $rules}</span>', 'total={xen:count $rules}'}</p>
+
+	<xen:else />
+
+		<div class="noResults">{xen:phrase XenStop_AdvArchiver_No_Rules}</div>
+
+	</xen:if>
 </xen:form>]]></template>
   </admin_templates>
   <admin_template_modifications/>
   <code_events/>
-  <code_event_listeners>
-    <listener event_id="load_class" execute_order="10" callback_class="XenStop_AdvArchiver_Listener_CodeEvents" callback_method="loadClass" active="1" hint="" description=""/>
-  </code_event_listeners>
+  <code_event_listeners/>
   <cron>
     <entry entry_id="XenStop_AdvArchiver" cron_class="XenStop_AdvArchiver_CronEntry_ArchiveThreads" cron_method="run" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["-1"],"minutes":["0"]}]]></entry>
   </cron>
@@ -92,6 +133,7 @@
     <phrase title="XenStop_AdvArchiver_Max_Age_Lastpost" version_id="0" version_string="1.0.0"><![CDATA[Maximum Age (Last Post)]]></phrase>
     <phrase title="XenStop_AdvArchiver_Max_Age_Lastpost_Explain" version_id="0" version_string="1.0.0"><![CDATA[The maximum amount of time (in days) that a thread can live since it's last post before being archived.]]></phrase>
     <phrase title="XenStop_AdvArchiver_New_Rule" version_id="1010110" version_string="1.1.1 Alpha"><![CDATA[New Rule]]></phrase>
+    <phrase title="XenStop_AdvArchiver_No_Rules" version_id="1010110" version_string="1.1.1 Alpha"><![CDATA[There are no rules defined]]></phrase>
     <phrase title="XenStop_AdvArchiver_No_Title" version_id="1010110" version_string="1.1.1 Alpha"><![CDATA[No Title]]></phrase>
     <phrase title="XenStop_AdvArchiver_Rule_List" version_id="1010110" version_string="1.1.1 Alpha"><![CDATA[Rule List]]></phrase>
     <phrase title="XenStop_AdvArchiver_Rule_Not_Found" version_id="1010110" version_string="1.1.1 Alpha"><![CDATA[Rule not found]]></phrase>
