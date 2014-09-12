@@ -25,7 +25,12 @@ class XenStop_AdvArchiver_CronEntry_ArchiveThreads
 			} else {
 				$ignoreSticky = false;
 			}
-			$threads = $model->getThreads($rule['node_id'], $rule['max_age'], $rule['max_age_lastpost'], $openOnly, $ignoreSticky);
+			if($rule['ignore_open'] == 1 && $openOnly == false) {
+				$ignoreOpen = true;
+			} else {
+				$ignoreOpen = false;
+			}
+			$threads = $model->getThreads($rule['node_id'], $rule['max_age'], $rule['max_age_lastpost'], $openOnly, $ignoreSticky, $ignoreOpen);
 			foreach($threads as $thread) {
 				if($rule['close'] == 1) {
 					$threadUpdateData['discussion_open'] = 0;
