@@ -25,7 +25,7 @@ class XenStop_AdvArchiver_Model_Rule extends XenForo_Model
 	 * @param number Number of days since last post in thread
 	 * @return mixed Array of applicable threads
 	 */
-	public function getThreads($nodeId, $postDate=0, $lastPostDate=0, $openOnly=false, $ignoreSticky, $limit=100)
+	public function getThreads($nodeId, $postDate=0, $lastPostDate=0, $openOnly=false, $ignoreSticky, $ignoreOpen, $limit=100)
 	{
 		$conditionals = "WHERE `node_id` = ".intval($nodeId);
 		
@@ -41,6 +41,9 @@ class XenStop_AdvArchiver_Model_Rule extends XenForo_Model
 		}
 		if($ignoreSticky) {
 			$conditionals .= " AND `sticky` = 0";
+		}
+		if($ignoreOpen) {
+			$conditionals .= " AND `discussion_open` != 1";
 		}
 		return $this->fetchAllKeyed("
 				SELECT * from `xf_thread`

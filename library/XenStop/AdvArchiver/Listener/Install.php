@@ -14,18 +14,21 @@ class XenStop_AdvArchiver_Listener_Install
 		if(!$version) {
 			self::_getDb()->query("
 					CREATE TABLE IF NOT EXISTS `xs_advarchiver_rule` (
+					  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 					  `node_id` int(10) unsigned NOT NULL,
-					  `title` varchar(50) NULL DEFAULT NULL,
+					  `title` varchar(50) DEFAULT NULL,
 					  `enabled` tinyint(1) NOT NULL DEFAULT '0',
-					  `max_age` int(10) unsigned DEFAULT NULL,
-					  `max_age_lastpost` int(10) unsigned DEFAULT NULL,
+					  `max_age` int(10) unsigned NOT NULL DEFAULT '0',
+					  `max_age_lastpost` int(10) unsigned NOT NULL DEFAULT '0',
 					  `archive_type` varchar(50) NOT NULL DEFAULT 'none',
 					  `archive_create_redirect` tinyint(1) NOT NULL DEFAULT '0',
-					  `archive_node_id` int(10) unsigned DEFAULT NULL,
+					  `archive_node_id` int(10) unsigned NOT NULL DEFAULT '0',
 					  `close` tinyint(1) NOT NULL DEFAULT '0',
 					  `ignore_sticky` tinyint(1) NOT NULL DEFAULT '0',
+					  `ignore_open` tinyint(1) NOT NULL DEFAULT '0',
+					  PRIMARY KEY (`rule_id`),
 					  UNIQUE KEY `node_id` (`node_id`)
-					) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+					) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 					");
 			return true;
 		} else {
@@ -41,7 +44,8 @@ class XenStop_AdvArchiver_Listener_Install
 					CHANGE `archive_type` `archive_type` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'none',
 					ADD `rule_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT FIRST,
 					ADD PRIMARY KEY (`rule_id`),
-					ADD `title` VARCHAR(50) NULL DEFAULT NULL AFTER `node_id`";
+					ADD `title` VARCHAR(50) NULL DEFAULT NULL AFTER `node_id`,
+					ADD `ignore_open` TINYINT(1) NOT NULL DEFAULT '0'";
 			}
 			
 			if(!empty($queries)) {

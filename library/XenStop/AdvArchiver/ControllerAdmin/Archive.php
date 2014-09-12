@@ -28,6 +28,7 @@ class XenStop_AdvArchiver_ControllerAdmin_Archive extends XenForo_ControllerAdmi
 			'archive_type'				=> XenForo_Input::STRING,
 			'close'						=> XenForo_Input::INT,
 			'ignore_sticky'				=> XenForo_Input::INT,
+			'ignore_open'				=> XenForo_Input::INT,
 			'archive_node_id'			=> XenForo_Input::UINT,
 			'archive_create_redirect'	=> XenForo_Input::INT,
 		));

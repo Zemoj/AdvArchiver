@@ -20,6 +20,7 @@ class XenStop_AdvArchiver_DataWriter_Rule extends XenForo_DataWriter
 			'archive_type'				=> array('type' => self::TYPE_STRING, 'default' => 'none', 'required' => true),
 			'close'						=> array('type' => self::TYPE_INT, 'default' => 0, 'required' => true),
 			'ignore_sticky'				=> array('type' => self::TYPE_INT, 'default' => 0, 'required' => true),
+			'ignore_open'				=> array('type' => self::TYPE_INT, 'default' => 0, 'required' => true),
 			'archive_node_id'			=> array('type' => self::TYPE_UINT, 'default' => 0, 'required' => true),
 			'archive_create_redirect'	=> array('type' => self::TYPE_INT, 'default' => 0, 'required' => true),
 		));

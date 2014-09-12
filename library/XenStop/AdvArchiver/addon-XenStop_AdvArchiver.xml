@@ -45,6 +45,10 @@
 		<xen:option value="1">{xen:phrase yes}</xen:option>
 		<xen:option value="0">{xen:phrase no}</xen:option>
 	</xen:radiounit>
+	<xen:radiounit label="{xen:phrase XenStop_AdvArchiver_Ignore_Open}:" name="ignore_open" value="{$rule.ignore_open}">
+		<xen:option value="1">{xen:phrase yes}</xen:option>
+		<xen:option value="0">{xen:phrase no}</xen:option>
+	</xen:radiounit>
 	<xen:selectunit name="archive_node_id" value="{$rule.archive_node_id}" label="{xen:phrase XenStop_AdvArchiver_Archive_Node_Id}">
 		<xen:option value="0">&nbsp;</xen:option>
 		<xen:options source="$forums" />
@@ -127,6 +131,7 @@
     <phrase title="XenStop_AdvArchiver_Archive_Type_Soft_Delete" version_id="0" version_string="1.0.0"><![CDATA[Soft Delete]]></phrase>
     <phrase title="XenStop_AdvArchiver_Close_Thread" version_id="0" version_string="1.0.0"><![CDATA[Close Thread]]></phrase>
     <phrase title="XenStop_AdvArchiver_Edit_Rule" version_id="1010110" version_string="1.1.1 Alpha"><![CDATA[Edit Rule]]></phrase>
+    <phrase title="XenStop_AdvArchiver_Ignore_Open" version_id="1010110" version_string="1.1.1 Alpha"><![CDATA[Ignore Open Threads]]></phrase>
     <phrase title="XenStop_AdvArchiver_Ignore_Sticky" version_id="2" version_string="1.0.2"><![CDATA[Ignore Sticky]]></phrase>
     <phrase title="XenStop_AdvArchiver_Max_Age" version_id="0" version_string="1.0.0"><![CDATA[Max Age]]></phrase>
     <phrase title="XenStop_AdvArchiver_Max_Age_Explain" version_id="0" version_string="1.0.0"><![CDATA[The maximum age (in days) that a thread can live before being archived.]]></phrase>
