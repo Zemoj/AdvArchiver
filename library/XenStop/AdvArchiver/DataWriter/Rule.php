@@ -36,6 +36,7 @@ class XenStop_AdvArchiver_DataWriter_Rule extends XenForo_DataWriter
 			$this->error(new XenForo_Phrase('XenStop_AdvArchiver_Must_Select_Forum'), 'node_id');
 			return false;
 		}
+		return true;
 	}
 
 	protected function _verifyArchiveNode(&$nodeId)
@@ -50,6 +51,7 @@ class XenStop_AdvArchiver_DataWriter_Rule extends XenForo_DataWriter
 				return false;
 			}
 		}
+		return true;
 	}
 
 	protected function _verifyNodeIsForum(&$nodeId)
