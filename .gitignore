@@ -1,15 +1,19 @@
-/.buildpath
+######################
+# Core XenForo Files #
+######################
 /.htaccess
-/.project
-/.settings
 /admin.php
 /admindav.php
 /css.php
-/data/*
 /deferred.php
 /fb_channel.php
 /htaccess.txt
 /index.php
+/payment_callback.php
+/proxy.php
+/rgba.php
+/sitemap.php
+/data/*
 /install/*
 /internal_data/*
 /js/flot/*
@@ -28,9 +32,10 @@
 /library/config.php
 /library/config.php.default
 /library/index.html
-/payment_callback.php
-/proxy.php
-/rgba.php
-/sitemap.php
 /styles/default/*
 /styles/index.html
+
+######################
+#   Project Files    #
+######################
+/.idea

@@ -18,8 +18,8 @@ class XenStop_AdvArchiver_ControllerAdmin_Archive extends XenForo_ControllerAdmi
 	{
 		$this->_assertPostOnly();
 		$ruleModel = $this->_getRuleModel();
+		$ruleId = $this->_input->filterSingle('rule_id', XenForo_Input::UINT);
 		$input = $this->_input->filter(array(
-			'rule_id'					=> XenForo_Input::UINT,
 			'title'						=> XenForo_Input::STRING,
 			'enabled'					=> XenForo_Input::UINT,
 			'node_id'					=> XenForo_Input::UINT,
@@ -33,9 +33,10 @@ class XenStop_AdvArchiver_ControllerAdmin_Archive extends XenForo_ControllerAdmi
 			'archive_create_redirect'	=> XenForo_Input::INT,
 		));
 		$writer = $this->_getRuleDataWriter();
-		$rule = $ruleModel->getRuleById($input['rule_id']);
-		if($rule) {
-			$writer->setExistingData($input['rule_id']);
+		$rule = $ruleModel->getRuleById($ruleId);
+		if ($rule)
+		{
+			$writer->setExistingData($ruleId);
 		}
 		$writer->bulkSet($input);
 		$writer->save();
@@ -47,22 +48,18 @@ class XenStop_AdvArchiver_ControllerAdmin_Archive extends XenForo_ControllerAdmi
 	
 	public function actionEdit()
 	{
-		$nodes = $this->_getForumsModel()->getForums();
-		$forums = array();
-		foreach($nodes as &$node) {
-			$forums[$node['node_id']] = $node['title'];
-		}
-		if ($ruleId = $this->_input->filterSingle('rule_id', XenForo_Input::UINT)) {
+		$nodeModel = $this->_getNodeModel();
+		if ($ruleId = $this->_input->filterSingle('rule_id', XenForo_Input::UINT))
+		{
 			$ruleModel = $this->_getRuleModel();
 			$rule = $ruleModel->getRuleById($ruleId);
-			if(!$rule) {
+			if (!$rule)
+			{
 				return $this->responseError(new XenForo_Phrase('XenStop_AdvArchiver_Rule_Not_Found'), 404);
 			}
-			$viewParams = array(
-				'rule'		=> $rule,
-				'forums'	=> $forums,
-			);
-		} else {
+		}
+		else
+		{
 			$rule = array(
 				'enabled'					=> 1,
 				'node_id'					=> 0,
@@ -71,14 +68,16 @@ class XenStop_AdvArchiver_ControllerAdmin_Archive extends XenForo_ControllerAdmi
 				'archive_time'				=> 'none',
 				'close'						=> 0,
 				'ignore_sticky'				=> 0,
-				'archive_node_Id'			=> 0,
+				'archive_node_id'			=> 0,
 				'archive_create_redirect'	=> 0,
 			);
-			$viewParams = array(
-				'rule'		=> $rule,
-				'forums'	=> $forums,
-			);
 		}
+		$nodes = $nodeModel->getAllNodes();
+		$viewParams = array(
+			'rule'			=> $rule,
+			'nodes'			=> $nodeModel->getNodeOptionsArray($nodes, $rule['node_id']),
+			'archiveNodes'	=> $nodeModel->getNodeOptionsArray($nodes, $rule['archive_node_id']),
+		);
 		return $this->responseView('XenStop_XenStop_AdvArchiver_ViewAdmin_Rule_Edit', 'XenStop_AdvArchiver_Rule_Edit', $viewParams);
 	}
 	
@@ -109,8 +108,8 @@ class XenStop_AdvArchiver_ControllerAdmin_Archive extends XenForo_ControllerAdmi
 		return XenForo_DataWriter::create('XenStop_AdvArchiver_DataWriter_Rule');
 	}
 	
-	protected function _getForumsModel()
+	protected function _getNodeModel()
 	{
-		return XenForo_Model::create('XenForo_Model_Forum');
+		return XenForo_Model::create('XenForo_Model_Node');
 	}
 }
