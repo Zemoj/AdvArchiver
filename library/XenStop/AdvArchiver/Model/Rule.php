@@ -29,20 +29,28 @@ class XenStop_AdvArchiver_Model_Rule extends XenForo_Model
 	{
 		$conditionals = "WHERE `node_id` = ".intval($nodeId);
 		
-		if($postDate != 0) {
+		if ($postDate != 0)
+		{
 			$conditionals .= " AND `post_date` <= ".intval(XenForo_Application::$time - ($postDate * 86400));
-		} elseif($lastPostDate != 0) {
+		}
+		elseif ($lastPostDate != 0)
+		{
 			$conditionals .= " AND `last_post_date` <= ".intval(XenForo_Application::$time - ($lastPostDate * 86400));
-		} else {
+		}
+		else
+		{
 			return false;
 		}
-		if($openOnly) {
+		if ($openOnly)
+		{
 			$conditionals .= " AND `discussion_open` != 0";
 		}
-		if($ignoreSticky) {
+		if ($ignoreSticky)
+		{
 			$conditionals .= " AND `sticky` = 0";
 		}
-		if($ignoreOpen) {
+		if ($ignoreOpen)
+		{
 			$conditionals .= " AND `discussion_open` != 1";
 		}
 		return $this->fetchAllKeyed("

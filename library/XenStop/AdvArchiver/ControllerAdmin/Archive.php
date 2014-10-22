@@ -34,7 +34,8 @@ class XenStop_AdvArchiver_ControllerAdmin_Archive extends XenForo_ControllerAdmi
 		));
 		$writer = $this->_getRuleDataWriter();
 		$rule = $ruleModel->getRuleById($input['rule_id']);
-		if($rule) {
+		if ($rule)
+		{
 			$writer->setExistingData($input['rule_id']);
 		}
 		$writer->bulkSet($input);
@@ -49,20 +50,24 @@ class XenStop_AdvArchiver_ControllerAdmin_Archive extends XenForo_ControllerAdmi
 	{
 		$nodes = $this->_getForumsModel()->getForums();
 		$forums = array();
-		foreach($nodes as &$node) {
+		foreach ($nodes as &$node) {
 			$forums[$node['node_id']] = $node['title'];
 		}
-		if ($ruleId = $this->_input->filterSingle('rule_id', XenForo_Input::UINT)) {
+		if ($ruleId = $this->_input->filterSingle('rule_id', XenForo_Input::UINT))
+		{
 			$ruleModel = $this->_getRuleModel();
 			$rule = $ruleModel->getRuleById($ruleId);
-			if(!$rule) {
+			if (!$rule)
+			{
 				return $this->responseError(new XenForo_Phrase('XenStop_AdvArchiver_Rule_Not_Found'), 404);
 			}
 			$viewParams = array(
 				'rule'		=> $rule,
 				'forums'	=> $forums,
 			);
-		} else {
+		}
+		else
+		{
 			$rule = array(
 				'enabled'					=> 1,
 				'node_id'					=> 0,

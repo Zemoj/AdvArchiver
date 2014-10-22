@@ -11,7 +11,8 @@ class XenStop_AdvArchiver_Listener_Install
 	public static function install($existingAddOn, $addOnData)
 	{
 		$version = is_array($existingAddOn)?$existingAddOn['version_id']:NULL;
-		if(!$version) {
+		if (!$version)
+		{
 			self::_getDb()->query("
 					CREATE TABLE IF NOT EXISTS `xs_advarchiver_rule` (
 					  `rule_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -31,12 +32,16 @@ class XenStop_AdvArchiver_Listener_Install
 					) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 					");
 			return true;
-		} else {
+		}
+		else
+		{
 			$queries = array();
-			if($version < 1010070) {
+			if ($version < 1010070)
+			{
 				$queries[] = "ALTER TABLE  `xs_advarchiver_rule` ADD  `ignore_sticky` TINYINT( 1 ) NOT NULL DEFAULT  '0'";
 			}
-			if($version < 1010170) {
+			if ($version < 1010170)
+			{
 				$queries[] = "ALTER TABLE `xs_advarchiver_rule`
 					CHANGE `max_age` `max_age` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 					CHANGE `max_age_lastpost` `max_age_lastpost` INT(10) UNSIGNED NOT NULL DEFAULT '0',
@@ -48,8 +53,10 @@ class XenStop_AdvArchiver_Listener_Install
 					ADD `ignore_open` TINYINT(1) NOT NULL DEFAULT '0'";
 			}
 			
-			if(!empty($queries)) {
-				foreach($queries as $query) {
+			if (!empty($queries))
+			{
+				foreach ($queries as $query)
+				{
 					self::_getDb()->query($query);
 				}
 			}
@@ -63,7 +70,8 @@ class XenStop_AdvArchiver_Listener_Install
 	
 	protected static function _getDb()
 	{
-		if(self::$_db == null) {
+		if (self::$_db == null)
+		{
 			self::$_db = XenForo_Application::get('db');
 		}
 		return self::$_db;
